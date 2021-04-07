@@ -8,14 +8,82 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var playerCard = "card5"
+    @State private var cpuCard = "card9"
+    @State private var playerScore = 0
+    @State private var cpuScore = 0
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        ZStack(){
+            Image("background")
+                .resizable()
+                .ignoresSafeArea()
+                .aspectRatio(contentMode: .fill)
+            
+            VStack(){
+                Spacer()
+                Image("logo")
+                Spacer()
+                HStack(alignment: .center){
+                    Spacer()
+                    Image(playerCard)
+                    Spacer()
+                    Image(cpuCard)
+                    Spacer()
+                }
+                Spacer()
+                Button(action: {
+                    
+                    let rand1 = Int.random(in: 2...14)
+                    let rand2 = Int.random(in: 2...14)
+                    
+                    playerCard = "card" + String(rand1)
+                    
+                    cpuCard = "card" + String(rand2)
+                    
+                    if(rand1 > rand2) {
+                        playerScore += 1
+                    } else if(rand1 < rand2) {
+                        cpuScore += 1
+                    } else {
+                        print("DRAW")
+                        
+                    }
+                    
+                }, label: {
+                    Image("dealbutton")
+                })
+                Spacer()
+                HStack(){
+                    Spacer()
+                    VStack(){
+                        Text("Player")
+                            .font(.headline)
+                            .foregroundColor(Color.white)
+                            .padding(.bottom, 10)
+                        Text(String(playerScore)).font(.largeTitle).foregroundColor(Color.white)
+                    }
+                    Spacer()
+                    VStack(){
+                        Text("CPU").font(.headline).foregroundColor(Color.white)
+                            .padding(.bottom, 10)
+
+                        Text(String(cpuScore)).font(.largeTitle).foregroundColor(Color.white)
+                    }
+                    Spacer()
+                }
+                Spacer()
+            }
+        }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        Group {
+            ContentView()
+            ContentView()
+        }
     }
 }
